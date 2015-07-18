@@ -1,3 +1,17 @@
+# loginDetails()
+#
+# This function opens a tab in your webbrowser and navigates to the soundcloud developers page.
+# Log into your account and create a test application (if you don't have any yet). Then, copy
+# the Client ID into the R console. You will need this ID for each function as it is used to make
+# Requests to the souncloud API
+#
+# Parameters: None
+#
+# Returns: list with your client id
+#
+# Sample use:
+#     CiD <- loginDetails()
+
 loginDetails <- function() {
   # Open soundcloud developers page
   browseURL("http://soundcloud.com/you/apps")
