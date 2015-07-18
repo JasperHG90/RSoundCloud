@@ -60,6 +60,37 @@ SCapi <- function(client_id,
   Construct calls
   '
 
+  # if searchterm
+  if(!is.null(searchterm)) {
+    # Construct url
+    page_url <- paste0("http://api.soundcloud.com/",
+                       searchterm, "?client_id=",
+                       client_id, "&limit=",
+                       limit)
+    # get json with query
+    jsonDoc <- fromJSON(file = page_url, method='C')
+    # If empty
+    if(length(jsonDoc) == 0) {
+      stop("There are no results for this query. [empty JSON]")
+    }
+    # If error
+    if(length(jsonDoc$errors) != 0) {
+      stop("400 - Bad Request error")
+    }
+    if(limit > 200) {
+      if(length(jsonDoc) == 200) {
+        jsonDoc <- paginate(jsonDoc, res_link, limit)
+      } else {
+        warning(paste0("You specified the query limit to be ",
+                       limit,
+                       ", but there are only ",
+                       length(jsonDoc),
+                       " results. Returning ",
+                       length(jsonDoc), " results."))
+      }
+    }
+  }
+
   # If link, then resolve
   res_link <- resolve(client_id, soundcloud_link)
   # Additional information?
@@ -96,7 +127,9 @@ SCapi <- function(client_id,
         if(length(jsonDoc) == 200) {
           jsonDoc <- paginate(jsonDoc, res_link, limit)
         } else {
-          warning(paste0("You specified the query limit to be ", limit, ", but there are only ", length(jsonDoc), " results. Returning ", length(jsonDoc), " results."))
+          warning(paste0("You specified the query limit to be ", limit,
+                         ", but there are only ", length(jsonDoc),
+                         " results. Returning ", length(jsonDoc), " results."))
         }
       }
       # Stop if errors
