@@ -16,7 +16,10 @@ SCapi <- function(client_id,
                   limit = 50,
                   ... ) {
 
-  # Control
+  '
+  User must fill in searchterm, soundcloud_id, or soundcloud_link
+  '
+
   if(all(is.null(soundcloud_id), is.null(soundcloud_link), is.null(searchterm))) {
     stop("You need to specify either a soundcloud id or a soundcloud link to that item.")
   }
@@ -48,7 +51,7 @@ SCapi <- function(client_id,
       }
       # If error, break & warning
       if(length(tempCall$errors) != 0) {
-        warning("There was an error. You may have exceeded your API requests.")
+        warning("There occurred an error. You may have exceeded your API requests.")
         break
       }
       # Add to master
@@ -62,8 +65,10 @@ SCapi <- function(client_id,
     return(jsonDoc)
   }
 
+  # CONSTRUCTING CALLS TO SC API
+
   '
-  Construct calls
+  SEARCHTERM != NULL
   '
 
   # if searchterm
@@ -83,6 +88,7 @@ SCapi <- function(client_id,
     if(length(jsonDoc$errors) != 0) {
       stop("400 - Bad Request error")
     }
+    # If limit > 200, then paginate
     if(limit > 200) {
       if(length(jsonDoc) == 200) {
         jsonDoc <- paginate(jsonDoc, page_url, limit)
@@ -95,7 +101,13 @@ SCapi <- function(client_id,
                        length(jsonDoc), " results."))
       }
     }
+    # Return
+    return(jsonDoc)
   }
+
+  '
+  SOUNDCLOUD_LINK != NULL
+  '
 
   # If link, then resolve
   res_link <- resolve(client_id, soundcloud_link)
