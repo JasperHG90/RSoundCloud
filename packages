@@ -1,2 +1,7 @@
 # Required packages
 rjson
+curl
+RCurl
+
+# See documentation:
+- https://developers.soundcloud.com/docs/api/reference#oembed
