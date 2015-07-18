@@ -1,6 +1,7 @@
 # Resolve
 #
 # Resolve the address of a user, playlist, set, comments, groups etc.
+# Function is used by the SCapi() function1
 #
 # Parameters:
 #     - client_id: soundcloud client id. See loginDetails() for more information
