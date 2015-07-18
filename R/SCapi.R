@@ -30,9 +30,10 @@ SCapi <- function(client_id,
     limit <- limit - 200
     # Offset value (i.e. where to start)
     offset <- 200
+    # While limit > 0, make new calls.
     while(limit > 0) {
-      # Construct calls
-      if(limit %% 200 != 0) {
+      # if limit < 200, limit == remainder of modulo
+      if(limit <= 200) {
         tempLim <- limit %% 200
         # Change limit
         res_link <- paste0(gsub("limit=[0-9].*", "", res_link), "limit=", tempLim)
@@ -43,6 +44,11 @@ SCapi <- function(client_id,
       tempCall <- fromJSON(file = tempURL, method='C')
       # If empty, break
       if(length(tempCall) == 0) {
+        break
+      }
+      # If error, break & warning
+      if(length(tempCall$errors) != 0) {
+        warning("There was an error. You may have exceeded your API requests.")
         break
       }
       # Add to master
@@ -79,7 +85,7 @@ SCapi <- function(client_id,
     }
     if(limit > 200) {
       if(length(jsonDoc) == 200) {
-        jsonDoc <- paginate(jsonDoc, res_link, limit)
+        jsonDoc <- paginate(jsonDoc, page_url, limit)
       } else {
         warning(paste0("You specified the query limit to be ",
                        limit,
