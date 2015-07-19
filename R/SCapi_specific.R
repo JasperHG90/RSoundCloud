@@ -2,6 +2,7 @@
 SCapi_specific <- function(client_id,
                          soundcloud_search,
                          type = c("url", "id", "name"),
+                         query = c("users", "tracks", "playlists", "groups", "comments"),
                          limit = 50,
                          ...) {
 
@@ -80,6 +81,10 @@ SCapi_specific <- function(client_id,
       url <- resolve(client_id, url)
       # Return
       return(url)
+    }
+    if(type == "id") {
+      # Create url
+
     }
   }
 
