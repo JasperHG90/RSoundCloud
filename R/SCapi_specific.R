@@ -120,7 +120,6 @@ SCapi_specific <- function(client_id,
         soundcloud_search <- paste0("https://soundcloud.com/",
                                     soundcloud_search)
         }
-      }
       # Resolve
       url <- resolve(client_id, soundcloud_search)
       # Add get arguments
@@ -130,6 +129,18 @@ SCapi_specific <- function(client_id,
         url <- paste0(sp[1], "/",
                       get, "?",
                       sp[2])
+      }
+      # If ... has results (add filters)
+      addon <- ...
+      if(length(addon) != 0) {
+        # Take client id
+        cliID <- unlist(strsplit(url, "\\?"))[2]
+        for(i in 1:length(addon)) {
+          cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
+          url <- paste0(url, cons)
+        }
+        # Stick client id back on
+        url <- paste0(url, cliID)
       }
     }
     if(type == "name") {
