@@ -121,13 +121,16 @@ SCapi_specific <- function(client_id,
                                     soundcloud_search)
         }
       }
-      # Add get arguments
-      if(!is.null(get)) {
-      soundcloud_search <- paste0(soundcloud_search, "/",
-                                  get)
-      }
       # Resolve
       url <- resolve(client_id, soundcloud_search)
+      # Add get arguments
+      if(!is.null(get)) {
+        # Split
+        sp <- unlist(strsplit(url, "\\?"))
+        url <- paste0(sp[1], "/",
+                      get, "?",
+                      sp[2])
+      }
     }
     if(type == "name") {
       #create url
