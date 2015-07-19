@@ -6,39 +6,9 @@ SCapi_specific <- function(client_id,
                          ...) {
 
   '
-  Check legality of parameters
-  '
-
-  # if type is not chosen
-  if(length(type) > 1) {
-    stop(paste0("Please specify the type of your search term (e.g. url to soundcloud page,",
-                "a soundcloud ID, or a user name."))
-  } else{
-    type <- match.arg(type)
-  }
-  # If type is not one of possibilities
-  if(!type %in% c("url", "id", "name")) {
-    stop(paste0("You can only search by soundcloud ID, soundcloud user name, or a url to",
-                "a track, user or playlist etc."))
-  }
-  # Check if client ID is legal
-  curl = getCurlHandle()
-  res <- fromJSON(getURL(url, curl = curl))
-  rm(curl)
-  # Check for errors
-  error <- errorHandling(res)
-  if(!is.null(error)) {
-    stop(error)
-  }
-  # Construct url
-  # if type is url, then OK
-  if
-
-
-
-
-  '
-  Define helper functions
+  ++++++++++++++++
+  Helper functions
+  ++++++++++++++++
   '
 
   # FUNCTION 1: Check for errors. Takes result of a 'getURL' json file
@@ -64,7 +34,7 @@ SCapi_specific <- function(client_id,
     }
   }
 
-  # FUNCTION 2: Resolve urls via the SC api
+  # FUNCTION 3: Resolve urls via the SC api
 
   resolve <- function(client_id, soundcloud_url){
     # Base
@@ -92,21 +62,65 @@ SCapi_specific <- function(client_id,
     return(red_url)
   }
 
-  # FUNCTION 2: Construct search urls
+  # FUNCTION 4: Construct search urls
 
   constructURL <- function(client_id, soundcloud_search, type) {
     # If url, resolve
     if(type == "url") {
       # Resolve
       url <- resolve(client_id, soundcloud_search)
-      # Replace https with http and return
-
+      # return
       return(url)
     }
     if(type == "name") {
+      #create url
+      url <- paste0("https://soundcloud.com/",
+                    soundcloud_search)
       # Resolve
+      url <- resolve(client_id, url)
+      # Return
+      return(url)
     }
   }
+
+  '
+  Check legality of type parameter
+  '
+
+  # if type is not chosen
+  if(length(type) > 1) {
+    stop(paste0("Please specify the type of your search term (e.g. url to soundcloud page,",
+                "a soundcloud ID, or a user name."))
+  } else{
+    type <- match.arg(type)
+  }
+  # If type is not one of possibilities
+  if(!type %in% c("url", "id", "name")) {
+    stop(paste0("You can only search by soundcloud ID, soundcloud user name, or a url to",
+                "a track, user or playlist etc."))
+  }
+
+  '
+  Client ID check
+  '
+
+  # Check if client ID is legal
+  curl = getCurlHandle()
+  res <- fromJSON(getURL(url, curl = curl))
+  rm(curl)
+  # Check for errors
+  error <- errorHandling(res)
+  if(!is.null(error)) {
+    stop(error)
+  }
+
+  # Construct url
+  # if type is url, then OK
+
+
+
+
+
 
 
 }
