@@ -77,20 +77,31 @@ SCapi_specific <- function(client_id,
     # Error handling
     error <- errorHandling(res)
     if(!is.null(error)) {
-      stop("The url you entered did not yield results. Please check your input and try again.")
+      stop(error)
+    }
+    # Empty JSON?
+    empty <- emptyRes(res)
+    if(!is.null(empty)) {
+      stop(empty)
     }
     # Get redirect url
     red_url <- res$location
+    # Change https to http
+    red_url <- gsub("https", "http", red_url, fixed=T)
     # Return
     return(red_url)
   }
 
   # FUNCTION 2: Construct search urls
 
-  constructURL <- function(soundcloud_search, type) {
-    # If url, then pass
+  constructURL <- function(client_id, soundcloud_search, type) {
+    # If url, resolve
     if(type == "url") {
       # Resolve
+      url <- resolve(client_id, soundcloud_search)
+      # Replace https with http and return
+
+      return(url)
     }
     if(type == "name") {
       # Resolve
