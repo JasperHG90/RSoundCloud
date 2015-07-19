@@ -109,7 +109,13 @@ SCapi_specific <- function(client_id,
 
   constructURL <- function(client_id, soundcloud_search, type, limit, query_type, get) {
     # If url, resolve
-    if(type == "url") {
+    if(type == "url" | type == "name") {
+      # If user name, create url
+      if(type == "name") {
+        soundcloud_search <- paste0("https://soundcloud.com/",
+                                    soundcloud_search)
+      }
+
       # If query_type = user then take any url but remove to generic SC page
       if(query_type == "users") {
         # Strip to bare
@@ -145,8 +151,7 @@ SCapi_specific <- function(client_id,
     }
     if(type == "name") {
       #create url
-      url <- paste0("https://soundcloud.com/",
-                    soundcloud_search)
+
       # Resolve
       url <- resolve(client_id, url)
     }
