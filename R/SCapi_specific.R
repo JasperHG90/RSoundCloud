@@ -5,6 +5,7 @@ SCapi_specific <- function(client_id,
                            query_type = c("users", "tracks", "playlists", "groups", "comments"),
                            limit = 50,
                            get = NULL,
+                           filter = NULL,
                            ...) {
 
   '
@@ -107,7 +108,7 @@ SCapi_specific <- function(client_id,
 
   # FUNCTION 4: Construct search urls
 
-  constructURL <- function(client_id, soundcloud_search, type, limit, query_type, get) {
+  constructURL <- function(client_id, soundcloud_search, type, limit, query_type, get, addon) {
     # If url, resolve
     if(type == "url" | type == "name") {
       # If user name, create url
@@ -116,7 +117,7 @@ SCapi_specific <- function(client_id,
                                     soundcloud_search)
       }
 
-      # If query_type = user then take any url but remove to generic SC page
+      # If query_type = user then take any url but reduce to generic SC page
       if(query_type == "users") {
         # Strip to bare
         soundcloud_search <- gsub(".*soundcloud.com/", "", soundcloud_search)
@@ -125,7 +126,8 @@ SCapi_specific <- function(client_id,
         }
         soundcloud_search <- paste0("https://soundcloud.com/",
                                     soundcloud_search)
-        }
+      }
+
       # Resolve
       url <- resolve(client_id, soundcloud_search)
       # Add get arguments
@@ -136,24 +138,18 @@ SCapi_specific <- function(client_id,
                       get, "?",
                       sp[2])
       }
-      # If ... has results (add filters)
-      addon <- ...
+      # Add filters
       if(length(addon) != 0) {
         # Take client id
         cliID <- unlist(strsplit(url, "\\?"))[2]
+        url <- unlist(strsplit(url, "\\?"))[1]
         for(i in 1:length(addon)) {
           cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
           url <- paste0(url, cons)
         }
         # Stick client id back on
-        url <- paste0(url, cliID)
+        url <- paste0(url, "?", cliID)
       }
-    }
-    if(type == "name") {
-      #create url
-
-      # Resolve
-      url <- resolve(client_id, url)
     }
     if(type == "id") {
       # Create url
@@ -218,6 +214,16 @@ SCapi_specific <- function(client_id,
   }
 
   '
+  ++++++++++++++++
+  QUERY SOUNDCLOUD
+  ++++++++++++++++
+  '
+
+  # Construct url
+  # if type is url, then OK. Add list of filters
+  page_url <- constructURL(client_id, soundcloud_search, type, limit, query_type, get, filter)
+
+  '
   +++++++++++++++
   Client ID check
   +++++++++++++++
@@ -225,7 +231,7 @@ SCapi_specific <- function(client_id,
 
   # Check if client ID is legal
   curl = getCurlHandle()
-  res <- fromJSON(getURL(url, curl = curl))
+  res <- fromJSON(getURL(page_url, curl = curl))
   rm(curl)
   # Check for errors
   error <- errorHandling(res)
@@ -234,16 +240,7 @@ SCapi_specific <- function(client_id,
                 " (your client ID is not valid. Please check your details and try again.)"))
   }
 
-  '
-  ++++++++++++++++
-  QUERY SOUNDCLOUD
-  ++++++++++++++++
-  '
-
-  # Construct url
-  # if type is url, then OK
-  page_url <- constructURL(client_id, soundcloud_search, type, limit, query_type, get)
-
+  # Return
   return(page_url)
 
 }
@@ -252,4 +249,5 @@ SCapi_specific(client_id,
                "https://soundcloud.com/the-source-2013/sets",
                type = "url",
                query_type = "playlists",
-               limit = 50)
+               limit = 50,
+               get = NULL)
