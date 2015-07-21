@@ -194,13 +194,14 @@ SCapi_specific <- function(client_id,
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
       # If empty, break
-      if(length(tempCall) == 0) {
-        break
+      if(is.null(emptyRes(tempCall))) {
+        warning(paste0("End of results. Returning results up to now."))
+        return(jsonDoc)
       }
       # If error, break & warning
-      if(length(tempCall$errors) != 0) {
+      if(!is.null(errorHandling(tempCall))) {
         warning("There occurred an error. You may have exceeded your API requests.")
-        break
+        return(jsonDoc)
       }
       # Add to master
       jsonDoc <- c(jsonDoc, tempCall)
@@ -215,7 +216,7 @@ SCapi_specific <- function(client_id,
 
   '
   ++++++++++++++++
-  QUERY SOUNDCLOUD
+  CONSTRUCT URL
   ++++++++++++++++
   '
 
@@ -240,6 +241,23 @@ SCapi_specific <- function(client_id,
                 " (your client ID is not valid. Please check your details and try again.)"))
   }
 
+  '
+  ++++++++++++++++
+  QUERY SOUNDCLOUD
+  ++++++++++++++++
+  '
+
+  # Get results
+  results <- fromJSON(file = page_url, method = "C")
+  # If limit > 200
+  if(limit > 200) {
+    # Paginate
+    res <- paginate(results, page_url, limit)
+    # If results, then bind with master
+    if(!is.null(res)) {
+      results <- c(results, res)
+    }
+  }
   # Return
   return(page_url)
 
