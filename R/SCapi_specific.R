@@ -258,12 +258,13 @@ SCapi_specific <- function(client_id,
       results <- c(results, res)
     }
   }
+
   # Return
-  return(page_url)
+  return(results)
 
 }
 
-SCapi_specific(client_id,
+v <- SCapi_specific(client_id,
                "https://soundcloud.com/the-source-2013/sets",
                type = "url",
                query_type = "playlists",
