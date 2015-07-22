@@ -160,7 +160,7 @@ SCapi_general <- function(client_id,
 
   # Check if client ID is legal
   curl = getCurlHandle()
-  res <- fromJSON(getURL(paste0("http://api.soundcloud.com/", type, "?client_id=", client_id), curl = curl))
+  res <- fromJSON(getURL(paste0("http://api.soundcloud.com/users?client_id=", client_id), curl = curl))
   rm(curl)
   # Check for errors
   error <- errorHandling(res)
