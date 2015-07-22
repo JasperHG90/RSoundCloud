@@ -1,8 +1,28 @@
+# SCapi_general()
+#
+# Return results from users, tracks, groups, comments. General
+#
+# Parameters:
+#   - client_id: The soundcloud client id of your application. See loginDetails() for more information
+#   - type: What would you like to query? Must be one of "users", "tracks", "groups", "comments"
+#   - limit: how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results,
+#            this is possible by paginating (done automatically).
+#   - filter: Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added
+#             as a list, e.g. filter = list("q" = "the-bugle").
+#   - offset: determines at which result we start searching. For example, if we do a generic query for "users", which returns all
+#             users for the limit we set (e.g. 1000), and we use offset = 1000, then we begin our search at the 1001st user, thus
+#             returning the information of users between 1000 and 2000.
+#
+# Returns: list with soundcloud query results. Length of list depends on query and limit specified by user.
+#
+# Sample use:
+#        sc_res <- SCapi_general(client_id, type="users", limit=50, filter=list("q" = "em-mcrae", "q" = "the-bugle"))
 
-SCapi_general <- function(user_id,
+SCapi_general <- function(client_id,
                           type = c("users", "tracks", "groups", "comments"),
                           limit = 50,
-                          filter = NULL) {
+                          filter = NULL,
+                          offset = NULL) {
 
   '
   +++++++++++++++++++++++++++++++++++
@@ -100,6 +120,39 @@ SCapi_general <- function(user_id,
   }
 
   '
+  ++++++++++++++++
+  CREATE URL
+  ++++++++++++++++
+  '
+
+  # Add filters
+  addon <- filter
+  # If filters exist, then create
+  if(length(addon) != 0) {
+    # Master
+    filters <- c()
+    for(i in 1:length(addon)) {
+      cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
+      filters <- c(filters,cons)
+    }
+    # Decompose
+    filters <- paste0(filters, collapse="")
+  }
+  if(length(filters) != 0) {
+    # Create url
+    page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=", limit, filters)
+    if(!is.null(offset)) {
+      page_url <- paste0(page_url, "&offset=", offset)
+    }
+  } else{
+    # Create url
+    page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=", limit)
+    if(!is.null(offset)) {
+      page_url <- paste0(page_url, "&offset=", offset)
+    }
+  }
+
+  '
   +++++++++++++++
   Client ID check
   +++++++++++++++
@@ -117,9 +170,9 @@ SCapi_general <- function(user_id,
   }
 
   '
-  ++++++++++++++++
+  +++++++++++++++++
   QUERY SOUNDCLOUD
-  ++++++++++++++++
+  +++++++++++++++++
   '
 
   # Get results
