@@ -1,10 +1,17 @@
 Package: RSoundCloud
 Type: Package
-Title: What the Package Does (Title Case)
+Title: API wrapper for Soundcloud
 Version: 0.1
 Date: 2015-07-18
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: "Jasper Ginn", role=c("aut", "cre"), email="jasperginn@gmail.com"
+Maintainer: Jasper Ginn (jasperginn@gmail.com)
+Description: Query specific or general searches to the Soundcloud API and pull data directly into R.
+Imports:
+    RCurl,
+    rjson
+Depends:
+    R (>= 2.15.0)
+License: MIT
+URL: https://github.com
 LazyData: TRUE
+BugReports: https://github.com/githubname/RSoundCloud/issues
