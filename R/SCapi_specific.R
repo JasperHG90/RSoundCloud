@@ -1,25 +1,28 @@
-#` Return query results for specific users / tracks / playlists/ groups or comments.
-#
-# Parameters:
-#   - client_id: The soundcloud client id of your application. See loginDetails() for more information
-#   - soundcloud_search: Primary search query. Must be a name of a soundcloud track or user, a url pointing to a search query, or
-#                        a soundcloud id.
-#   - type: Type of your soundcloud_search. Must be one of "url", "id", or "name".
-#   - query type: What would you like to query? depends on your soundcloud_search input value. E.g. if you are querying a user, use
-#                 "users". If you are querying tracks, use "tracks" etc. See documentation for more information.
-#   - limit: how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results,
-#            this is possible by paginating (done automatically).
-#   - get: Any additional information for 'users'. For example, if you want to query all tracks for a user, choose 'tracks'.
-#          For more information on get requests, see section 'subresources' under 'users': http://bit.ly/1OwCaUC. Defaults to
-#          NULL.
-#   - filter: Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added
-#             as a list, e.g. filter = list("q" = "the-bugle").
-#
-# Returns: list with soundcloud query results. Length of list depends on query and limit specified by user.
-#
-# Sample use:
-#        results <- SCapi_specific(client_id, "https://soundcloud.com/the-source-2013/sets", type = "url",
-                                 # query_type = "playlists", limit = 50, get = NULL)
+#' Return query results for specific users / tracks / playlists/ groups or comments.
+#'
+#' A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}
+#'
+#' For additional information about filters and the soundcloud API, see: http://bit.ly/1OwCaUC
+#' @param client_id The soundcloud client id of your application. See loginDetails() for more information
+#' @param soundcloud_search Primary search query. Must be a name of a soundcloud track or user, a url pointing to a search query, or a soundcloud id.
+#' @param type Type of your soundcloud_search. Must be one of "url", "id", or "name".
+#' @param query_type What would you like to query? depends on your soundcloud_search input value. E.g. if you are querying a user, use "users". If you are querying tracks, use "tracks" etc. See documentation for more information.
+#' @param limit how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).
+#' @param get Any additional information for 'users'. For example, if you want to query all tracks for a user, choose 'tracks'. For more information on get requests, see section 'subresources' under 'users': http://bit.ly/1OwCaUC. Defaults to NULL.
+#' @param filter Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added as a list, e.g. filter = list("q" = "the-bugle").
+#' @param ... any other arguments. Currently not used.
+#' @seealso \code{\link{loginDetails}}
+#' @examples \dontrun{
+#' Query up to 50 results of the playlists from url provided.
+#' results <- SCapi_specific(client_id, "https://soundcloud.com/the-source-2013/sets",
+#'                           type = "url", query_type = "playlists", limit = 50, get = NULL,
+#'                           filter=NULL)
+#' }
+#' @author Jasper Ginn
+#' @importFrom RCurl getCurlHandle
+#' @importFrom RCurl getURL
+#' @importFrom rjson fromJSON
+#' @export
 
 SCapi_specific <- function(client_id,
                            soundcloud_search,

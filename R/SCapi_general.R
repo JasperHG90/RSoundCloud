@@ -11,8 +11,10 @@
 #' @seealso \code{\link{loginDetails}}
 #' @examples \dontrun{
 #' Query up to 50 results of users that conform to the query "em-mcrae" or "the-bugle"
-#' sc_res <- SCapi_general(client_id, type="users", limit=50, filter=list("q" = "em-mcrae", "q" = "the-bugle"))
+#' sc_res <- SCapi_general(client_id, type="users", limit=50,
+#'                         filter=list("q" = "em-mcrae", "q" = "the-bugle"))
 #' }
+#' @author Jasper Ginn
 #' @importFrom RCurl getCurlHandle
 #' @importFrom RCurl getURL
 #' @importFrom rjson fromJSON
