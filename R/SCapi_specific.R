@@ -166,14 +166,14 @@ SCapi_specific <- function(client_id,
       # Add filters
       if(length(addon) != 0) {
         # Take client id
-        cliID <- unlist(strsplit(url, "\\?"))[2]
-        url <- unlist(strsplit(url, "\\?"))[1]
+        #cliID <- unlist(strsplit(url, "\\?"))[2]
+        #url <- unlist(strsplit(url, "\\?"))[1]
         for(i in 1:length(addon)) {
           cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
           url <- paste0(url, cons)
         }
         # Stick client id back on
-        url <- paste0(url, "?", cliID)
+        #url <- paste0(url, "?", cliID)
       }
     }
     if(type == "id") {
@@ -248,6 +248,7 @@ SCapi_specific <- function(client_id,
   # Construct url
   # if type is url, then OK. Add list of filters
   page_url <- constructURL(client_id, soundcloud_search, type, limit, query_type, get, filter)
+  return(page_url)
 
   '
   +++++++++++++++
@@ -288,3 +289,6 @@ SCapi_specific <- function(client_id,
   return(results)
 
 }
+
+us <- SCapi_specific(clientID, "https://soundcloud.com/the-bugle/likes", type="url",
+                     query_type="users", get="tracks", filter=list("created_at[from]" = "2015-05-20"))
