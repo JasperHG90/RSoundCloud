@@ -2,7 +2,9 @@
 \alias{SCapi_specific}
 \title{Query specific soundcloud users, tracks, groups, comments, playlists by url, name or soundcloud ID}
 \usage{
-SCapi_specific <- function(client_id, soundcloud_search, type = c("url", "id", "name"), query_type = c("users", "tracks", "playlists", "groups", "comments"), limit = 50, get = NULL, filter = NULL, ...)
+SCapi_specific(client_id, soundcloud_search, type = c("url", "id", "name"),
+               query_type = c("users", "tracks", "playlists", "groups", "comments"),
+               limit = 50, get = NULL, filter = NULL, ...)
 }
 \arguments{
 \item{client_id}{The soundcloud client id of your application. See loginDetails() for more information.}

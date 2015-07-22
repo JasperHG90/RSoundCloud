@@ -98,8 +98,8 @@ SCapi_general <- function(client_id,
       tempURL <- paste0(res_link, "&offset=", offset)
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
-      # If empty, break
-      if(is.null(emptyRes(tempCall))) {
+      # If empty, break and return what we have until now
+      if(!is.null(emptyRes(tempCall))) {
         warning(paste0("End of results. Returning results up to now."))
         return(jsonDoc)
       }
@@ -138,7 +138,7 @@ SCapi_general <- function(client_id,
     # Decompose
     filters <- paste0(filters, collapse="")
   }
-  if(length(filters) != 0) {
+  if(length(addon) != 0) {
     # Create url
     page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=", limit, filters)
     if(!is.null(offset)) {
@@ -183,11 +183,11 @@ SCapi_general <- function(client_id,
     res <- paginate(results, page_url, limit)
     # If results, then bind with master
     if(!is.null(res)) {
-      results <- c(results, res)
+      res <- res
     }
   }
 
   # Return
-  return(results)
+  return(res)
 
 }

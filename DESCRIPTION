@@ -4,7 +4,7 @@ Title: API wrapper for Soundcloud
 Version: 0.1
 Date: 2015-07-18
 Author: "Jasper Ginn", role=c("aut", "cre"), email="jasperginn@gmail.com"
-Maintainer: Jasper Ginn (jasperginn@gmail.com)
+Maintainer: Jasper Ginn <jasperginn@gmail.com>
 Description: Query specific or general searches to the Soundcloud API and pull data directly into R.
 Imports:
     RCurl,

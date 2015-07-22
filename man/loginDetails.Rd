@@ -13,7 +13,6 @@ This function opens a tab in your webbrowser and navigates to the soundcloud dev
 # Visit soundcloud developers, log in and supply client id to Rstudio console
 client_id <- loginDetails()
 }
-}
 \author{
 Jasper Ginn (jasperginn@gmail.com)
 }

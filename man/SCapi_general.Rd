@@ -2,7 +2,8 @@
 \alias{SCapi_general}
 \title{Query from all soundcloud users, tracks, groups or comments}
 \usage{
-SCapi_general <- function(client_id, type = c("users", "tracks", "groups", "comments"), limit = 50, filter = NULL, offset = NULL)
+SCapi_general(client_id, type = c("users", "tracks", "groups", "comments"), limit = 50,
+              filter = NULL, offset = NULL)
 }
 \arguments{
 \item{client_id}{The soundcloud client id of your application. See loginDetails() for more information.}
