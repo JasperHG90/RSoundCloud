@@ -1,6 +1,6 @@
-#' Return results from users, tracks, groups, comments. General
+#' Return results from users, tracks, groups, comments.
 #'
-#' A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}
+#' A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}. The SCapi_general function differs from the SCapi_specific function in that it only queries "generic" results. To query e.g. the tracks of a specific user, or to get the results for a specific user, see \code{\link{SCapi_specific}}.
 #'
 #' For additional information about filters and the soundcloud API, see: http://bit.ly/1OwCaUC
 #' @param client_id The soundcloud client id of your application. See loginDetails() for more information

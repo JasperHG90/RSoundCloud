@@ -2,7 +2,7 @@
 % Please edit documentation in R/SCapi_general.R
 \name{SCapi_general}
 \alias{SCapi_general}
-\title{Return results from users, tracks, groups, comments. General}
+\title{Return results from users, tracks, groups, comments.}
 \usage{
 SCapi_general(client_id, type = c("users", "tracks", "groups", "comments"),
   limit = 50, filter = NULL, offset = NULL)
@@ -19,7 +19,7 @@ SCapi_general(client_id, type = c("users", "tracks", "groups", "comments"),
 \item{offset}{determines at which result we start searching. For example, if we do a generic query for "users", which returns all users for the limit we set (e.g. 1000), and we use offset = 1000, then we begin our search at the 1001st user, thus returning the information of users between 1000 and 2000.}
 }
 \description{
-A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}
+A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}. The SCapi_general function differs from the SCapi_specific function in that it only queries "generic" results. To query e.g. the tracks of a specific user, or to get the results for a specific user, see \code{\link{SCapi_specific}}.
 }
 \details{
 For additional information about filters and the soundcloud API, see: http://bit.ly/1OwCaUC
