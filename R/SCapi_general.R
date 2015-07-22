@@ -151,6 +151,7 @@ SCapi_general <- function(client_id,
       page_url <- paste0(page_url, "&offset=", offset)
     }
   }
+  #return(page_url)
 
   '
   +++++++++++++++
@@ -160,7 +161,7 @@ SCapi_general <- function(client_id,
 
   # Check if client ID is legal
   curl = getCurlHandle()
-  res <- fromJSON(getURL(page_url, curl = curl))
+  res <- fromJSON(getURL(paste0("http://api.soundcloud.com/", type, "?client_id=", client_id), curl = curl))
   rm(curl)
   # Check for errors
   error <- errorHandling(res)
