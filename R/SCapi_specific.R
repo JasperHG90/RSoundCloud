@@ -289,6 +289,3 @@ SCapi_specific <- function(client_id,
   return(results)
 
 }
-
-us <- SCapi_specific(clientID, "https://soundcloud.com/the-bugle/likes", type="url",
-                     query_type="users", get="tracks", filter=list("created_at[from]" = "2015-05-20"))
