@@ -13,5 +13,5 @@ Depends:
     R (>= 2.15.0)
 License: MIT
 URL: https://github.com/JasperHG90/RSoundCloud
-LazyData: FALSE
+LazyData: false
 BugReports: https://github.com/JasperHG90/RSoundCloud/issues

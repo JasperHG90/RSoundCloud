@@ -1,6 +1,4 @@
-# SCapi_specific()
-#
-# Return query results for specific users / tracks / playlists/ groups or comments.
+#` Return query results for specific users / tracks / playlists/ groups or comments.
 #
 # Parameters:
 #   - client_id: The soundcloud client id of your application. See loginDetails() for more information

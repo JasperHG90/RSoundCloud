@@ -1,22 +1,22 @@
-# SCapi_general()
-#
-# Return results from users, tracks, groups, comments. General
-#
-# Parameters:
-#   - client_id: The soundcloud client id of your application. See loginDetails() for more information
-#   - type: What would you like to query? Must be one of "users", "tracks", "groups", "comments"
-#   - limit: how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results,
-#            this is possible by paginating (done automatically).
-#   - filter: Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added
-#             as a list, e.g. filter = list("q" = "the-bugle").
-#   - offset: determines at which result we start searching. For example, if we do a generic query for "users", which returns all
-#             users for the limit we set (e.g. 1000), and we use offset = 1000, then we begin our search at the 1001st user, thus
-#             returning the information of users between 1000 and 2000.
-#
-# Returns: list with soundcloud query results. Length of list depends on query and limit specified by user.
-#
-# Sample use:
-#        sc_res <- SCapi_general(client_id, type="users", limit=50, filter=list("q" = "em-mcrae", "q" = "the-bugle"))
+#' Return results from users, tracks, groups, comments. General
+#'
+#' A client ID is necessary to query results from the SoundCloud API. See \code{\link{loginDetails}}
+#'
+#' For additional information about filters and the soundcloud API, see: http://bit.ly/1OwCaUC
+#' @param client_id The soundcloud client id of your application. See loginDetails() for more information
+#' @param type What would you like to query? Must be one of "users", "tracks", "groups", "comments"
+#' @param limit how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).
+#' @param filter Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added as a list, e.g. filter = list("q" = "the-bugle").
+#' @param offset determines at which result we start searching. For example, if we do a generic query for "users", which returns all users for the limit we set (e.g. 1000), and we use offset = 1000, then we begin our search at the 1001st user, thus returning the information of users between 1000 and 2000.
+#' @seealso \code{\link{loginDetails}}
+#' @examples \dontrun{
+#' Query up to 50 results of users that conform to the query "em-mcrae" or "the-bugle"
+#' sc_res <- SCapi_general(client_id, type="users", limit=50, filter=list("q" = "em-mcrae", "q" = "the-bugle"))
+#' }
+#' @importFrom RCurl getCurlHandle
+#' @importFrom RCurl getURL
+#' @importFrom rjson fromJSON
+#' @export
 
 SCapi_general <- function(client_id,
                           type = c("users", "tracks", "groups", "comments"),
