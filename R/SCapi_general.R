@@ -151,7 +151,6 @@ SCapi_general <- function(client_id,
       page_url <- paste0(page_url, "&offset=", offset)
     }
   }
-  #return(page_url)
 
   '
   +++++++++++++++
@@ -177,7 +176,7 @@ SCapi_general <- function(client_id,
   '
 
   # Get results
-  results <- fromJSON(file = page_url, method = "C")
+  res <- fromJSON(file = page_url, method = "C")
   # If limit > 200
   if(limit > 200) {
     # Paginate
@@ -192,3 +191,5 @@ SCapi_general <- function(client_id,
   return(res)
 
 }
+
+ty <- SCapi_general(client_id, "users", filter = list("q" = "the-bugle"))
