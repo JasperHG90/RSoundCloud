@@ -180,7 +180,7 @@ SCapi_general <- function(client_id,
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    res <- paginate(results, page_url, limit)
+    res <- paginate(res, page_url, limit)
     # If results, then bind with master
     if(!is.null(res)) {
       res <- res
@@ -191,5 +191,3 @@ SCapi_general <- function(client_id,
   return(res)
 
 }
-
-ty <- SCapi_general(client_id, "users", filter = list("q" = "the-bugle"))
