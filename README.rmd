@@ -2,6 +2,13 @@
 
 The RSoundCloud package contains two functions with which to query the SoundCloud API. It further contains one convenience function aimed at helping the user to obtain a client id. This id is necessary to query the API.
 
+# Package information
+
+*package name:* RSoundCloud
+*version:* v0.1a
+*maintainer:* Jasper Ginn (jasperginn@gmail.com)
+*issue reports:* https://github.com/JasperHG90/RSoundCloud/issues
+
 # Installing
 
 The package is available from GitHub. We can install it via the 'devtools' package.
