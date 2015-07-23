@@ -104,6 +104,8 @@ tracks <- SCapi_general(clientID$clientID, type = "tracks", limit = 500, filter 
                                                                                        "q" = "Emily"))
 ```
 
+This returns the following error:
+
 ```
 Error in file(con, "r") : cannot open the connection
 In addition: Warning message:
