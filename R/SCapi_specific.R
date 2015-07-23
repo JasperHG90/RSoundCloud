@@ -75,9 +75,12 @@ SCapi_specific <- function(client_id,
   }
 
   # If filter isn't a list, then error
-  if(mode(filter) != "list") {
-    stop(paste0("'filter' argument only takes a list"))
+  if(!is.null(filter)) {
+    if(mode(filter) != "list") {
+      stop(paste0("'filter' argument only takes a list"))
+    }
   }
+
 
   '
   ++++++++++++++++
