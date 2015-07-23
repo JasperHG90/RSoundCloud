@@ -28,17 +28,22 @@ SCapi_general <- function(client_id,
 
   '
   +++++++++++++++++++++++++++++++++++
-  Check legality of type parameter
+  Check legality of parameters
   +++++++++++++++++++++++++++++++++++
   '
-
-  # TYPE
 
   # if type is not chosen
   if(length(type) > 1) {
     stop(paste0("Please specify the type of your search term (e.g. users, tracks, groups or comments)"))
   } else{
     type <- match.arg(type)
+  }
+
+  # If filter isn't a list, then error
+  if(!is.null(filter)) {
+    if(mode(filter) != "list") {
+      stop(paste0("'filter' argument only takes a list"))
+    }
   }
 
 
