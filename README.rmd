@@ -17,7 +17,7 @@ install_github("JasperHG90/RSoundCloud")
 library(RSoundCloud)
 ```
 
-# Setting up RsoundCloud
+# Setting up RSoundCloud
 
 In order to query the API, you need to register as a soundcloud developer. You can simply do this with your existing soundcloud account. Then, you need to register an application and copy the 'client id' to R. You can do this by calling the `loginDetails` function.
 
