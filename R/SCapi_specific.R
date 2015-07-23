@@ -74,6 +74,11 @@ SCapi_specific <- function(client_id,
     stop(paste0("'get' can only contain 1 argument."))
   }
 
+  # If filter isn't a list, then error
+  if(mode(filter) != "list") {
+    stop(paste0("'filter' argument only takes a list"))
+  }
+
   '
   ++++++++++++++++
   Helper functions
@@ -134,14 +139,12 @@ SCapi_specific <- function(client_id,
   # FUNCTION 4: Construct search urls
 
   constructURL <- function(client_id, soundcloud_search, type, limit, query_type, get, addon) {
-    # If url, resolve
-    if(type == "url" | type == "name") {
-      # If user name, create url
+    # If user name, create url
+    if(type == "name" | type == "url") {
       if(type == "name") {
         soundcloud_search <- paste0("https://soundcloud.com/",
                                     soundcloud_search)
       }
-
       # If query_type = user then take any url but reduce to generic SC page
       if(query_type == "users") {
         # Strip to bare
@@ -152,41 +155,41 @@ SCapi_specific <- function(client_id,
         soundcloud_search <- paste0("https://soundcloud.com/",
                                     soundcloud_search)
       }
-
       # Resolve
       url <- resolve(client_id, soundcloud_search)
-      # Add get arguments
-      if(!is.null(get)) {
-        # Split
-        sp <- unlist(strsplit(url, "\\?"))
-        url <- paste0(sp[1], "/",
-                      get, "?",
-                      sp[2])
-      }
-      # Add filters
-      if(length(addon) != 0) {
-        # Take client id
-        #cliID <- unlist(strsplit(url, "\\?"))[2]
-        #url <- unlist(strsplit(url, "\\?"))[1]
-        for(i in 1:length(addon)) {
-          cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
-          url <- paste0(url, cons)
-        }
-        # Stick client id back on
-        #url <- paste0(url, "?", cliID)
-      }
     }
+    # If ID, create URL directly
     if(type == "id") {
       # Create url
       url <- paste0("http://api.soundcloud.com/",
-                    query_type, "/",
-                    soundcloud_search,
-                    "?client_id=",
-                    client_id)
+                                  query_type, "/",
+                                  soundcloud_search,
+                                  "?client_id=",
+                                  client_id)
     }
-    # Add limit and return
-    url <- paste0(url, "&limit=", limit)
-    return(url)
+    # Add get arguments
+    if(!is.null(get)) {
+      # Split
+      sp <- unlist(strsplit(url, "\\?"))
+      url <- paste0(sp[1], "/",
+                    get, "?",
+                    sp[2])
+    }
+    # Add filters
+    if(length(addon) != 0) {
+      # Take client id
+      #cliID <- unlist(strsplit(url, "\\?"))[2]
+      #url <- unlist(strsplit(url, "\\?"))[1]
+      for(i in 1:length(addon)) {
+        cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
+        url <- paste0(url, cons)
+      }
+      # Stick client id back on
+      #url <- paste0(url, "?", cliID)
+    }
+  # Add limit and return
+  url <- paste0(url, "&limit=", limit)
+  return(url)
   }
 
   # FUNCTION 5: Paginate through results if limit > 200
