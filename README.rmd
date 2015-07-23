@@ -124,11 +124,17 @@ Sys.time() - t1 # 25.86 secs.
 
 ```{r}
 # Query by name
+t1 <- Sys.time()
 us <- SCapi_specific(clientID$clientID, "the-bugle", type="name", query_type="users")
+Sys.time() - t1 # 0.103 secs
 # Query by soundcloud ID
+t1 <- Sys.time()
 us <- SCapi_specific(clientID$clientID, "9818871", type="id", query_type="users")
+Sys.time() - t1 # 0.0439 secs (faster because it does not have to resolve a url)
 # Query by url
+t1 <- Sys.time()
 us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle", type="url", query_type="users")
+Sys.time() - t1 # 0.105 secs
 ```
 
 Note that the URL does not necessarily have to point to the main page of a user. 
@@ -144,9 +150,13 @@ If we want to query the tracks belonging to a user, we have several options.
 
 ```{r}
 # Get tracks for user # METHOD1
+t1 <- Sys.time()
 us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle/likes", type="url", query_type="users", get="tracks")
+Sys.time() - t1 # 0.492 secs
 # Get tracks for user # METHOD2
+t1 <- Sys.time()
 us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle/tracks", type="url", query_type="tracks")
+Sys.time() - t1 # 0.128 secs (faster because less computation needed)
 ```
 
 Both of these options work. In method 1, the URL we provide is merely used to resolve the user name (see [SoundCloud documentation on resolving](https://developers.soundcloud.com/docs/api/reference#resolve)). This is governed by the `query_type` argument, which is specified to look for "users". The `get` argument then stipulates that we are looking for the tracks belonging to that user (see the [SoundCloud documentation on GET](https://developers.soundcloud.com/docs/api/reference#users)). 
