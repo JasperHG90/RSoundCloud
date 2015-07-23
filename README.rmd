@@ -87,7 +87,7 @@ comments <- SCapi_general(clientID$clientID, type = "comments", limit = 500)
 Sys.time() - t1 # 0.923 secs.
 ```
 
-Filters can also be used for e.g. tracks.
+Filters can also be used for tracks and comments.
 
 ```{r} 
 # Tracks
@@ -149,16 +149,14 @@ us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle/likes"
 us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle/tracks", type="url", query_type="tracks")
 ```
 
-Both of these options work. In method 1, the URL we provide is merely used to resolve the user name (see [SoundCloud documentation on resolving](https://developers.soundcloud.com/docs/api/reference#resolve)). This is governed by the `query_type` argument, which is specified to look for "users". The `get` argument then stipulates that we are looking for the tracks belonging to that user (see the [SoundCloud documentation on GET](https://developers.soundcloud.com/docs/api/reference#users). 
+Both of these options work. In method 1, the URL we provide is merely used to resolve the user name (see [SoundCloud documentation on resolving](https://developers.soundcloud.com/docs/api/reference#resolve)). This is governed by the `query_type` argument, which is specified to look for "users". The `get` argument then stipulates that we are looking for the tracks belonging to that user (see the [SoundCloud documentation on GET](https://developers.soundcloud.com/docs/api/reference#users)). 
 
 For method 2, we provide a direct URL to the tracks of the user, and tell `SCapi_specific` to query tracks directly via the `query_type` argument.
 
 As with the `SCapi_general` function, we can add filters to narrow down our search.
 
 ```{r}
-# Filter for tracks created after 22 May 2015
-us <- SCapi_specific(clientID$clientID, "https://soundcloud.com/the-bugle/likes", type="url", 
+# Filter for tracks created after 20 May 2015
+us <- SCapi_specific(clientID$clientID, "9818871", type="id", 
                      query_type="users", get="tracks", filter=list("created_at[from]" = "2015-05-20"))
 ```
-
-As of yet, it is not possible to do specific searches via soundcloud ID. This will be implemented sometime this week.
