@@ -4,10 +4,10 @@ The RSoundCloud package contains two functions with which to query the SoundClou
 
 # Package information
 
-*package name:* RSoundCloud
-*version:* v0.1a
-*maintainer:* Jasper Ginn (jasperginn@gmail.com)
-*issue reports:* https://github.com/JasperHG90/RSoundCloud/issues
+  - *package name:* RSoundCloud
+  - *version:* v0.1a
+  - *maintainer:* Jasper Ginn (jasperginn@gmail.com)
+  - *issue reports:* https://github.com/JasperHG90/RSoundCloud/issues
 
 # Installing
 
