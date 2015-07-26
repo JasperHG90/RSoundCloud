@@ -173,10 +173,6 @@ SCapi_general <- function(client_id,
     }
     # Return
     return(page_url)
-    # If verbose
-    if(verbose == TRUE) {
-      cat(paste0("\nCreated base URL: ", page_url))
-    }
   }
 
   '
@@ -186,6 +182,10 @@ SCapi_general <- function(client_id,
   '
 
   page_url <- constructURL(filter, type, client_id, limit, offset)
+  # If verbose
+  if(verbose == TRUE) {
+    cat(paste0("\nCreated base URL: ", page_url))
+  }
 
   '
   +++++++++++++++++
