@@ -197,7 +197,14 @@ SCapi_specific <- function(client_id,
 
   # FUNCTION 5: Paginate through results if limit > 200
 
-  paginate <- function(jsonDoc, res_link, limit) {
+  paginate <- function(res_link, limit) {
+    # move from limit to offset
+    uppLim <- limit - 200
+    limit <- 200
+    # Query first batch
+    res_link <- gsub("limit=[0-9].", "limit=200", res_link)
+    # Get
+    jsonDoc <- fromJSON(file = res_link, method = "C")
     # Check length of jsonDoc. If < 200, then there are no more results
     if(length(jsonDoc) < 200) {
       warning(paste0("You specified the query limit to be ",
@@ -208,24 +215,22 @@ SCapi_specific <- function(client_id,
                      length(jsonDoc), " results."))
       return(NULL)
     }
-    # Decrease limit
-    limit <- limit - 200
     # Offset value (i.e. where to start)
     offset <- 200
     # While limit > 0, make new calls.
-    while(limit > 0) {
+    while(uppLim > 0) {
       # if limit < 200, limit == remainder of modulo
-      if(limit < 200) {
-        tempLim <- limit %% 200
+      if(uppLim < 200) {
+        tempLim <- uppLim %% 200
         # Change limit
-        res_link <- paste0(gsub("limit=[0-9].*", "", res_link), "limit=", tempLim)
+        res_link <- gsub("limit=[0-9].", paste0("limit=", tempLim), res_link)
       }
       # Temp url
       tempURL <- paste0(res_link, "&offset=", offset)
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
-      # If empty, break
-      if(is.null(emptyRes(tempCall))) {
+      # If empty, break and return what we have until now
+      if(!is.null(emptyRes(tempCall))) {
         warning(paste0("End of results. Returning results up to now."))
         return(jsonDoc)
       }
@@ -238,8 +243,8 @@ SCapi_specific <- function(client_id,
       jsonDoc <- c(jsonDoc, tempCall)
       # Increase offset
       offset <- offset + 200
-      # Decrese limit
-      limit <- limit - 200
+      # Decrease limit
+      uppLim <- uppLim - 200
     }
     # Return
     return(jsonDoc)
