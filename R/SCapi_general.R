@@ -6,6 +6,7 @@
 #' @param client_id The soundcloud client id of your application. See loginDetails() for more information
 #' @param type What would you like to query? Must be one of "users", "tracks", "groups", "comments"
 #' @param limit how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).
+#' @param verbose prints the url to query for every request.
 #' @param filter Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added as a list, e.g. filter = list("q" = "the-bugle").
 #' @param offset determines at which result we start searching. For example, if we do a generic query for "users", which returns all users for the limit we set (e.g. 1000), and we use offset = 1000, then we begin our search at the 1001st user, thus returning the information of users between 1000 and 2000.
 #' @seealso \code{\link{loginDetails}}

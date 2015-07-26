@@ -8,6 +8,7 @@
 #' @param type Type of your soundcloud_search. Must be one of "url", "id", or "name".
 #' @param query_type What would you like to query? depends on your soundcloud_search input value. E.g. if you are querying a user, use "users". If you are querying tracks, use "tracks" etc. See documentation for more information.
 #' @param limit how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).
+#' @param verbose prints the url to query for every request.
 #' @param get Any additional information for 'users'. For example, if you want to query all tracks for a user, choose 'tracks'. For more information on get requests, see section 'subresources' under 'users': http://bit.ly/1OwCaUC. Defaults to NULL.
 #' @param filter Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added as a list, e.g. filter = list("q" = "the-bugle").
 #' @param ... any other arguments. Currently not used.
