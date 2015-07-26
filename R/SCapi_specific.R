@@ -278,7 +278,7 @@ SCapi_specific <- function(client_id,
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    results <- paginate(results, page_url, limit)
+    results <- paginate(page_url, limit)
     # If results, then bind with master
     if(!is.null(res)) {
       return(NULL)
