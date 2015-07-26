@@ -261,40 +261,29 @@ SCapi_specific <- function(client_id,
   page_url <- constructURL(client_id, soundcloud_search, type, limit, query_type, get, filter)
 
   '
-  +++++++++++++++
-  Client ID check
-  +++++++++++++++
-  '
-
-  # Check if client ID is legal
-  curl = getCurlHandle()
-  res <- fromJSON(getURL(paste0("http://api.soundcloud.com/users?client_id=", client_id), curl = curl))
-  rm(curl)
-  # Check for errors
-  error <- errorHandling(res)
-  if(!is.null(error)) {
-    stop(paste0(error,
-                " (your client ID is not valid. Please check your details and try again.)"))
-  }
-
-  '
   ++++++++++++++++
   QUERY SOUNDCLOUD
   ++++++++++++++++
   '
 
+  # if verbose is TRUE
+  if(verbose == TRUE) {
+    cat(paste0("Fetching results for ", page_url))
+  }
+
   # Get results
-  results <- fromJSON(file = page_url, method = "C")
+  if(limit <= 200) {
+    results <- fromJSON(file = page_url, method = "C")
+  }
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    res <- paginate(results, page_url, limit)
+    results <- paginate(results, page_url, limit)
     # If results, then bind with master
     if(!is.null(res)) {
-      results <- c(results, res)
+      return(NULL)
     }
   }
-
   # Return
   return(results)
 
