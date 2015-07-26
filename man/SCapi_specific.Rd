@@ -6,7 +6,7 @@
 \usage{
 SCapi_specific(client_id, soundcloud_search, type = c("url", "id", "name"),
   query_type = c("users", "tracks", "playlists", "groups", "comments"),
-  limit = 50, get = NULL, filter = NULL, ...)
+  limit = 50, verbose = FALSE, get = NULL, filter = NULL, ...)
 }
 \arguments{
 \item{client_id}{The soundcloud client id of your application. See loginDetails() for more information}
@@ -18,6 +18,8 @@ SCapi_specific(client_id, soundcloud_search, type = c("url", "id", "name"),
 \item{query_type}{What would you like to query? depends on your soundcloud_search input value. E.g. if you are querying a user, use "users". If you are querying tracks, use "tracks" etc. See documentation for more information.}
 
 \item{limit}{how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).}
+
+\item{verbose}{prints the url to query for every request.}
 
 \item{get}{Any additional information for 'users'. For example, if you want to query all tracks for a user, choose 'tracks'. For more information on get requests, see section 'subresources' under 'users': http://bit.ly/1OwCaUC. Defaults to NULL.}
 

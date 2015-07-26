@@ -5,7 +5,7 @@
 \title{Return results from users, tracks, groups, comments.}
 \usage{
 SCapi_general(client_id, type = c("users", "tracks", "groups", "comments"),
-  limit = 50, filter = NULL, offset = NULL)
+  limit = 50, verbose = FALSE, filter = NULL, offset = NULL)
 }
 \arguments{
 \item{client_id}{The soundcloud client id of your application. See loginDetails() for more information}
@@ -13,6 +13,8 @@ SCapi_general(client_id, type = c("users", "tracks", "groups", "comments"),
 \item{type}{What would you like to query? Must be one of "users", "tracks", "groups", "comments"}
 
 \item{limit}{how many results should be returned? Soundcloud allows you to query 200 results per query. If you want more results, this is possible by paginating (done automatically).}
+
+\item{verbose}{prints the url to query for every request.}
 
 \item{filter}{Use if you want to add filters to the query. See: http://bit.ly/1OwCaUC for more information. Filters must be added as a list, e.g. filter = list("q" = "the-bugle").}
 
