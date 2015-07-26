@@ -88,7 +88,7 @@ SCapi_general <- function(client_id,
     res_link <- gsub("limit=[0-9].", "limit=200", res_link)
     # if verbose is TRUE
     if(verbose == TRUE) {
-      cat(paste0("Fetching results for ", res_link))
+      cat(paste0("\nFetching results for ", res_link))
     }
     # Get
     jsonDoc <- fromJSON(file = res_link, method = "C")
@@ -116,7 +116,7 @@ SCapi_general <- function(client_id,
       tempURL <- paste0(res_link, "&offset=", offset)
       # if verbose is TRUE
       if(verbose == TRUE) {
-        cat(paste0("Fetching results for ", tempURL))
+        cat(paste0("\nFetching results for ", tempURL))
       }
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
@@ -173,6 +173,10 @@ SCapi_general <- function(client_id,
     }
     # Return
     return(page_url)
+    # If verbose
+    if(verbose == TRUE) {
+      cat(paste0("\nCreated base URL: ", page_url))
+    }
   }
 
   '
@@ -193,7 +197,7 @@ SCapi_general <- function(client_id,
   if(limit <= 200) {
     # if verbose is TRUE
     if(verbose == TRUE) {
-      cat(paste0("Fetching results for ", page_url))
+      cat(paste0("\nFetching results for ", page_url))
     }
     # query
     res <- fromJSON(file = page_url, method = "C")
