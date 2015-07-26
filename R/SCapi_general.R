@@ -209,5 +209,4 @@ SCapi_general <- function(client_id,
   }
   # Return
   return(res)
-
 }
