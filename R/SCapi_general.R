@@ -126,55 +126,47 @@ SCapi_general <- function(client_id,
     return(jsonDoc)
   }
 
+  # FUNCTION 4: CONSTRUCT URL
+  constructURL <- function(filter, type, client_id, limit, offset) {
+    # Add filters
+    addon <- filter
+    # If filters exist, then create
+    if(length(addon) != 0) {
+      # Master
+      filters <- c()
+      for(i in 1:length(addon)) {
+        cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
+        filters <- c(filters,cons)
+      }
+      # Decompose
+      filters <- paste0(filters, collapse="")
+    }
+    if(length(addon) != 0) {
+      # Create url
+      page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=",
+                         limit, filters)
+      if(!is.null(offset)) {
+        page_url <- paste0(page_url, "&offset=", offset)
+      }
+    } else{
+      # Create url
+      page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=",
+                         limit)
+      if(!is.null(offset)) {
+        page_url <- paste0(page_url, "&offset=", offset)
+      }
+    }
+    # Return
+    return(page_url)
+  }
+
   '
   ++++++++++++++++
   CREATE URL
   ++++++++++++++++
   '
 
-  # Add filters
-  addon <- filter
-  # If filters exist, then create
-  if(length(addon) != 0) {
-    # Master
-    filters <- c()
-    for(i in 1:length(addon)) {
-      cons <- paste0("&", names(addon[i]), "=", unname(unlist(addon[i])))
-      filters <- c(filters,cons)
-    }
-    # Decompose
-    filters <- paste0(filters, collapse="")
-  }
-  if(length(addon) != 0) {
-    # Create url
-    page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=", limit, filters)
-    if(!is.null(offset)) {
-      page_url <- paste0(page_url, "&offset=", offset)
-    }
-  } else{
-    # Create url
-    page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=", limit)
-    if(!is.null(offset)) {
-      page_url <- paste0(page_url, "&offset=", offset)
-    }
-  }
-
-  '
-  +++++++++++++++
-  Client ID check
-  +++++++++++++++
-  '
-
-  # Check if client ID is legal
-  curl = getCurlHandle()
-  res <- fromJSON(getURL(paste0("http://api.soundcloud.com/users?client_id=", client_id), curl = curl))
-  rm(curl)
-  # Check for errors
-  error <- errorHandling(res)
-  if(!is.null(error)) {
-    stop(paste0(error,
-                " (your client ID is not valid. Please check your details and try again.)"))
-  }
+  page_url <- constructURL(filter, type, client_id, limit, offset)
 
   '
   +++++++++++++++++
