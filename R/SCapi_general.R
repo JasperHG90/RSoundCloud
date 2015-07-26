@@ -158,8 +158,8 @@ SCapi_general <- function(client_id,
     }
     if(length(addon) != 0) {
       # Create url
-      page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, "&limit=",
-                         limit, filters)
+      page_url <- paste0("http://api.soundcloud.com/", type, "?client_id=", client_id, filters,
+                         "&limit=", limit)
       if(!is.null(offset)) {
         page_url <- paste0(page_url, "&offset=", offset)
       }
