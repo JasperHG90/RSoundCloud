@@ -204,10 +204,10 @@ SCapi_specific <- function(client_id,
     uppLim <- limit - 200
     limit <- 200
     # Query first batch
-    res_link <- gsub("limit=[0-9].", "limit=200", res_link)
+    res_link <- gsub("limit=[0-9]+$", "limit=200", res_link)
     # if verbose is TRUE
     if(verbose == TRUE) {
-      cat(paste0("\nFetching results for ", page_url))
+      cat(paste0("\nFetching results for ", res_link))
     }
     # Get
     jsonDoc <- fromJSON(file = res_link, method = "C")
@@ -229,7 +229,7 @@ SCapi_specific <- function(client_id,
       if(uppLim < 200) {
         tempLim <- uppLim %% 200
         # Change limit
-        res_link <- gsub("limit=[0-9].", paste0("limit=", tempLim), res_link)
+        res_link <- gsub("limit=[0-9]+$", paste0("limit=", tempLim), res_link)
       }
       # Temp url
       tempURL <- paste0(res_link, "&offset=", offset)
