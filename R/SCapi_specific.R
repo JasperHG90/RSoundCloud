@@ -29,6 +29,7 @@ SCapi_specific <- function(client_id,
                            type = c("url", "id", "name"),
                            query_type = c("users", "tracks", "playlists", "groups", "comments"),
                            limit = 50,
+                           verbose = FALSE,
                            get = NULL,
                            filter = NULL,
                            ...) {

@@ -23,6 +23,7 @@
 SCapi_general <- function(client_id,
                           type = c("users", "tracks", "groups", "comments"),
                           limit = 50,
+                          verbose = FALSE,
                           filter = NULL,
                           offset = NULL) {
 
