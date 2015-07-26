@@ -72,6 +72,7 @@ SCapi_specific <- function(client_id,
   }
 
   # GET
+
   if(length(get) > 1) {
     stop(paste0("'get' can only contain 1 argument."))
   }
@@ -82,7 +83,6 @@ SCapi_specific <- function(client_id,
       stop(paste0("'filter' argument only takes a list"))
     }
   }
-
 
   '
   ++++++++++++++++
@@ -199,12 +199,16 @@ SCapi_specific <- function(client_id,
 
   # FUNCTION 5: Paginate through results if limit > 200
 
-  paginate <- function(res_link, limit) {
+  paginate <- function(res_link, limit, verbose) {
     # move from limit to offset
     uppLim <- limit - 200
     limit <- 200
     # Query first batch
     res_link <- gsub("limit=[0-9].", "limit=200", res_link)
+    # if verbose is TRUE
+    if(verbose == TRUE) {
+      cat(paste0("Fetching results for ", page_url))
+    }
     # Get
     jsonDoc <- fromJSON(file = res_link, method = "C")
     # Check length of jsonDoc. If < 200, then there are no more results
@@ -229,6 +233,10 @@ SCapi_specific <- function(client_id,
       }
       # Temp url
       tempURL <- paste0(res_link, "&offset=", offset)
+      # if verbose is TRUE
+      if(verbose == TRUE) {
+        cat(paste0("Fetching results for ", tempURL))
+      }
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
       # If empty, break and return what we have until now
@@ -268,19 +276,19 @@ SCapi_specific <- function(client_id,
   ++++++++++++++++
   '
 
-  # if verbose is TRUE
-  if(verbose == TRUE) {
-    cat(paste0("Fetching results for ", page_url))
-  }
-
   # Get results
   if(limit <= 200) {
+    # if verbose is TRUE
+    if(verbose == TRUE) {
+      cat(paste0("Fetching results for ", page_url))
+    }
+    # get results
     results <- fromJSON(file = page_url, method = "C")
   }
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    results <- paginate(page_url, limit)
+    results <- paginate(page_url, limit, verbose)
     # If results, then bind with master
     if(!is.null(res)) {
       return(NULL)
