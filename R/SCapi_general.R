@@ -119,7 +119,7 @@ SCapi_general <- function(client_id,
         cat(paste0("\nFetching results for ", tempURL))
       }
       # Call
-      tempCall <- fromJSON(file = tempURL, method='C')
+      try(tempCall <- fromJSON(file = tempURL, method='C'))
       # If empty, break and return what we have until now
       if(!is.null(emptyRes(tempCall))) {
         warning(paste0("End of results. Returning results up to now."))
