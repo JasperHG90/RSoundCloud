@@ -80,10 +80,14 @@ SCapi_general <- function(client_id,
 
   # FUNCTION 3: Paginate through results if limit > 200
 
-  paginate <- function(res_link, limit, verbose) {
+  paginate <- function(res_link, limit, verbose, offset) {
     # move from limit to offset
     uppLim <- limit - 200
     limit <- 200
+    # Offset value (i.e. where to start)
+    if(is.null(offset)) {
+      offset <- 200
+    }
     # Query first batch
     res_link <- gsub("limit=[0-9]+$", "limit=200", res_link)
     # if verbose is TRUE
@@ -102,8 +106,6 @@ SCapi_general <- function(client_id,
                      length(jsonDoc), " results."))
       return(NULL)
     }
-    # Offset value (i.e. where to start)
-    offset <- 200
     # While limit > 0, make new calls.
     while(uppLim > 0) {
       # if limit < 200, limit == remainder of modulo
@@ -205,7 +207,7 @@ SCapi_general <- function(client_id,
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    res <- paginate(page_url, limit, verbose)
+    res <- paginate(page_url, limit, verbose, offset)
     # If results, then bind with master
     if(is.null(res)) {
       return(NULL)
