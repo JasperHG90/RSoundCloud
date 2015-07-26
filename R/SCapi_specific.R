@@ -266,7 +266,6 @@ SCapi_specific <- function(client_id,
   ++++++++++++++++
   '
 
-  # Construct url
   # if type is url, then OK. Add list of filters
   page_url <- constructURL(client_id, soundcloud_search, type, limit, query_type, get, filter)
 

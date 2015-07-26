@@ -80,12 +80,16 @@ SCapi_general <- function(client_id,
 
   # FUNCTION 3: Paginate through results if limit > 200
 
-  paginate <- function(res_link, limit) {
+  paginate <- function(res_link, limit, verbose) {
     # move from limit to offset
     uppLim <- limit - 200
     limit <- 200
     # Query first batch
     res_link <- gsub("limit=[0-9].", "limit=200", res_link)
+    # if verbose is TRUE
+    if(verbose == TRUE) {
+      cat(paste0("Fetching results for ", res_link))
+    }
     # Get
     jsonDoc <- fromJSON(file = res_link, method = "C")
     # Check length of jsonDoc. If < 200, then there are no more results
@@ -110,6 +114,10 @@ SCapi_general <- function(client_id,
       }
       # Temp url
       tempURL <- paste0(res_link, "&offset=", offset)
+      # if verbose is TRUE
+      if(verbose == TRUE) {
+        cat(paste0("Fetching results for ", tempURL))
+      }
       # Call
       tempCall <- fromJSON(file = tempURL, method='C')
       # If empty, break and return what we have until now
@@ -181,19 +189,19 @@ SCapi_general <- function(client_id,
   +++++++++++++++++
   '
 
-  # if verbose is TRUE
-  if(verbose == TRUE) {
-    cat(paste0("Fetching results for ", page_url))
-  }
-
   # Get results
   if(limit <= 200) {
+    # if verbose is TRUE
+    if(verbose == TRUE) {
+      cat(paste0("Fetching results for ", page_url))
+    }
+    # query
     res <- fromJSON(file = page_url, method = "C")
   }
   # If limit > 200
   if(limit > 200) {
     # Paginate
-    res <- paginate(page_url, limit)
+    res <- paginate(page_url, limit, verbose)
     # If results, then bind with master
     if(is.null(res)) {
       return(NULL)
